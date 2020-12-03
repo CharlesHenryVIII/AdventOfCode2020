@@ -1,15 +1,11 @@
-#include <cassert>
 #include <vector>
-#include <string>
+#include <string_view>
 
 #include "math.h"
 
-struct FileText {
-	const char* text;
-	const long fileLength;
-};
+#include "Utility.h"
 
-FileText ReadEntireFileAsString(const char* fileName)
+const char* ReadEntireFileAsString(const char* fileName)
 {
 	FILE* file;
 	file = fopen(fileName, "rb");
@@ -20,22 +16,26 @@ FileText ReadEntireFileAsString(const char* fileName)
 	fread(buffer, 1, fileLength, file);
 	fclose(file);
 	buffer[fileLength] = 0;
-	FileText text = { buffer, fileLength };
-	return text;
+	return buffer;
 }
 
-std::vector<int> TextToIntArray(FileText data, const char lineEnd)
+std::vector<int> TextToIntArray(const char* text, const char lineEnd)
 {
 	std::vector<int> workingNums;
 	std::vector<int> nums;
 	workingNums.reserve(10);
 	nums.reserve(16);
 
-	for (int i = 0; data.text[i] != 0; i++)
+	for (int i = 0; text[i] != 0; i++)
 	{
 
 		//assert((data.text[i] - '0' >= 0  && data.text[i] - '0' <= '9') || data.text[i] == lineEnd);
-		if (data.text[i] == lineEnd)
+		if (text[i] - '0' >= 0  && text[i] - '0' <= '9')
+		{
+			int value = text[i] - '0';
+			workingNums.push_back(value);
+		}
+		else if (text[i] == lineEnd)
 		{
 			int value = 0;
 			for (int j = 0; j < workingNums.size(); j++)
@@ -49,13 +49,77 @@ std::vector<int> TextToIntArray(FileText data, const char lineEnd)
 				workingNums.clear();
 			}
 		}
-		else if (data.text[i] - '0' >= 0  && data.text[i] - '0' <= '9')
+	}
+	delete text;
+	return nums;
+}
+
+std::vector<int> TextToIntArray(const char* text)
+{
+	std::vector<int> workingNums;
+	std::vector<int> nums;
+	workingNums.reserve(10);
+	nums.reserve(2);
+
+	for (int i = 0; text[i] != 0; i++)
+	{
+
+		if (text[i] >= '0' && text[i] <= '9')
 		{
-			int value = data.text[i] - '0';
+
+			int value = text[i] - '0';
 			workingNums.push_back(value);
+		}
+		else
+		{
+			if (workingNums.size())
+			{
+				
+				int value = 0;
+				for (int j = 0; j < workingNums.size(); j++)
+				{
+					value += (workingNums[j] * (int)pow(10, workingNums.size() - 1 - j));
+				}
+
+				nums.push_back(value);
+				workingNums.clear();
+			}
 		}
 	}
 	return nums;
+}
+
+std::vector<std::string> TextToStringArray(const char* text)
+{
+	std::string_view sv = text;
+	std::vector<std::string> result;
+
+	int tokenLength = 0;
+	for (int i = 0; text[i - 1] != 0; i++)
+	{
+		if (text[i] >= ' ' && text[i] <= '~')
+		{
+			tokenLength++;
+		}
+		else
+		{
+			if (tokenLength)
+			{
+
+				std::string token;
+				token = sv.substr(i - tokenLength, tokenLength);
+				result.push_back(token);
+				tokenLength = 0;
+			}
+		}
+	}
+	assert(tokenLength == 0);
+	return result;
+}
+
+std::vector<std::string> FileToStringArray(const char* fileName)
+{
+	return TextToStringArray(ReadEntireFileAsString(fileName));
 }
 
 std::vector<int> FileToIntArray(const char* fileName, const char lineEnd)

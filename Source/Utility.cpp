@@ -117,12 +117,86 @@ std::vector<std::string> TextToStringArray(const char* text)
 	return result;
 }
 
+std::vector<std::string> TextToStringArray(const char* text, const char* lineEnd)
+{
+	assert(lineEnd);
+	assert(text);
+
+	//int32 lineEndLength = 0;
+	//while (lineEnd[lineEndLength + 1] != 0)
+	//	lineEndLength++;
+
+	std::string_view sv = text;
+	std::vector<std::string> result;
+
+	int tokenLength = 0;
+	for (int i = 0; text[i] != 0; i++)
+	{
+		bool isLineEnd = false;
+		if (text[i] == lineEnd[0] || text[i + 1] == 0)
+		{
+			int32 incrimenter = 0;
+			while (text[i + incrimenter] == lineEnd[incrimenter])
+			{
+
+				if (lineEnd[incrimenter + 1] == 0)
+				{
+					isLineEnd = true;
+					break;
+				}
+				incrimenter++;
+			}
+			if (tokenLength && (isLineEnd || text[i + 1] == 0))
+			{
+
+				std::string token;
+				token = sv.substr(i - tokenLength, tokenLength);
+				result.push_back(token);
+				tokenLength = 0;
+				i += incrimenter;
+				isLineEnd = true;
+			}
+		}
+		if (!isLineEnd)
+			tokenLength++;
+		
+		if (i == 22201)
+			isLineEnd = 10;
+	}
+	assert(tokenLength == 0);
+	return result;
+}
+
 std::vector<std::string> FileToStringArray(const char* fileName)
 {
 	return TextToStringArray(ReadEntireFileAsString(fileName));
 }
 
+std::vector<std::string> FileToStringArray(const char* fileName, const char* lineEnd)
+{
+	return TextToStringArray(ReadEntireFileAsString(fileName), lineEnd);
+}
+
 std::vector<int> FileToIntArray(const char* fileName, const char lineEnd)
 {
 	return TextToIntArray(ReadEntireFileAsString(fileName), lineEnd);
+}
+
+int32 NumberLengthInString(const std::string& string, int32& i)
+{
+
+	int32 j = 0;
+	while (string[i + j] >= '0' && string[i + j] <= '9')
+		j++;
+	return j;
+}
+
+int32 StringToInt(const std::string& string, int32 i, int32 length)
+{
+	return atoi(string.substr(i, length).c_str());
+}
+
+int32 StringToInt(const std::string& string, int32 i)
+{
+	return StringToInt(string, i, NumberLengthInString(string, i));
 }

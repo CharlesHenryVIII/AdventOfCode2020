@@ -109,3 +109,7 @@ std::vector<int> TextToIntArray(const char* text, const char lineEnd);
 std::vector<int> TextToIntArray(const char* text);
 std::vector<int> FileToIntArray(const char* fileName, const char lineEnd);
 std::vector<std::string> FileToStringArray(const char* fileName);
+std::vector<std::string> FileToStringArray(const char* fileName, const char* lineEnd);
+int32 NumberLengthInString(const std::string& string, int32& i);
+int32 StringToInt(const std::string& string, int32 i, int32 length);
+int32 StringToInt(const std::string& string, int32 i);

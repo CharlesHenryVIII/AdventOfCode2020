@@ -15,7 +15,7 @@ int Day1Part1()
 
 				printf("%i + %i = 2020\n", values[i], values[j]);
 				printf("Multiplied together you get: %i\n\n", (values[i] * values[j]));
-				return values[i] + values[j];
+				return values[i] * values[j];
 			}
 		}
 	}

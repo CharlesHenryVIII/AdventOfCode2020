@@ -122,10 +122,6 @@ std::vector<std::string> TextToStringArray(const char* text, const char* lineEnd
 	assert(lineEnd);
 	assert(text);
 
-	//int32 lineEndLength = 0;
-	//while (lineEnd[lineEndLength + 1] != 0)
-	//	lineEndLength++;
-
 	std::string_view sv = text;
 	std::vector<std::string> result;
 
@@ -150,7 +146,7 @@ std::vector<std::string> TextToStringArray(const char* text, const char* lineEnd
 			{
 
 				std::string token;
-				token = sv.substr(i - tokenLength, tokenLength);
+				token = sv.substr(i - tokenLength, tokenLength + 1);
 				result.push_back(token);
 				tokenLength = 0;
 				i += incrimenter;
@@ -160,8 +156,6 @@ std::vector<std::string> TextToStringArray(const char* text, const char* lineEnd
 		if (!isLineEnd)
 			tokenLength++;
 		
-		if (i == 22201)
-			isLineEnd = 10;
 	}
 	assert(tokenLength == 0);
 	return result;

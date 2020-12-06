@@ -136,35 +136,32 @@ int Day4Part2()
 		int32 correctCheck = 0;
 		for (int32 i = 0; i < string.size(); i++)
 		{
+
 			std::string_view sv = string;
-			if (sv.substr(i, 3) == "byr")
+			std::string_view id = sv.substr(i, 3);
+			i += 4;
+			if (id == "byr")
 			{
-				i += 4;
 				if (ValueCheckInString(string, i, 1920, 2002, true))
 					correctCheck++;
-
 			}
-			else if (sv.substr(i, 3) == "iyr")
+			else if (id == "iyr")
 			{
-				i += 4;
 				if (ValueCheckInString(string, i, 2010, 2020, true))
 					correctCheck++;
-
 			}
-			else if (sv.substr(i, 3) == "eyr")
+			else if (id == "eyr")
 			{
-
-				i += 4;
 				if (ValueCheckInString(string, i, 2020, 2030, true))
 					correctCheck++;
 			}
-			else if (sv.substr(i, 3) == "hgt")
+			else if (id == "hgt")
 			{
-				i += 4;
+
 				int32 heightLength = NumberLengthInString(string, i);
 				int32 height = StringToInt(string, i, heightLength);
 				i += heightLength;
-
+				
 				if (string[i] == 'c' && string[i + 1] == 'm')
 				{
 					if (height >= 150 && height <= 193)
@@ -176,9 +173,8 @@ int Day4Part2()
 						correctCheck++;
 				}
 			}
-			else if (sv.substr(i, 3) == "hcl")
+			else if (id == "hcl")
 			{
-				i += 4;
 
 				if (string[i] == '#')
 				{
@@ -191,9 +187,8 @@ int Day4Part2()
 
 				}
 			}
-			else if (sv.substr(i, 3) == "ecl")
+			else if (id == "ecl")
 			{
-				i += 4;
 				const char* colors[] = { "amb", "blu", "brn", "gry", "grn", "hzl", "oth" };
 				
 				for (int32 j = 0; j < sizeof(colors) / sizeof(colors[0]); j++)
@@ -207,9 +202,8 @@ int Day4Part2()
 					}
 				}
 			}
-			else if (sv.substr(i, 3) == "pid")
+			else if (id == "pid")
 			{
-				i += 4;
 
 				int32 j = 0;
 				while (string[i + j] >= '0' && string[i + j] <= '9')
@@ -219,9 +213,8 @@ int Day4Part2()
 					correctCheck++;
 				i += j;
 			}
-			else if (sv.substr(i, 3) == "cid")
+			else if (id == "cid")
 			{
-				i += 4;
 				//okay if missing
 				//ignore
 			}
@@ -230,8 +223,8 @@ int Day4Part2()
 			while (string[i] != ' ' && i < string.size())
 				i++;
 		}
-			if (correctCheck == 7 )
-				valid++;
+		if (correctCheck == 7)
+			valid++;
 	}
 	printf("Valid passports: %i\n\n", valid);
 

@@ -1,6 +1,5 @@
 #include "Utility.h"
 
-
 int Day5Part1()
 {
 	printf("Day 5 Part 1:\n");
@@ -93,7 +92,8 @@ int Day5Part2()
 		}
 		printf("|\n");
 	}
-#else 
+	return 0;
+#else
 
 
 	int32 seatID = 0;
@@ -102,11 +102,14 @@ int Day5Part2()
 		for (int32 j = 0; j < cols; j++)
 		{
 			if (seats[i][j - 1] && !seats[i][j] && seats[i][j + 1])
-				printf("ID of seat: %i\n\n", seatID = i * 8 + j);
+			{
+				seatID = i * 8 + j;
+				printf("ID of seat: %i\n\n", seatID);
+			}
 		}
 	}
+	return seatID;
 #endif
 
 	//printf("Highest ID:\n\n", highestID);
-	return seatID;
 }

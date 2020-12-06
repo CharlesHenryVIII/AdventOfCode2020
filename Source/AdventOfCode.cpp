@@ -7,6 +7,8 @@ int Day3Part1();
 int Day3Part2();
 int Day4Part1();
 int Day4Part2();
+int Day5Part1();
+int Day5Part2();
 
 int programs[] = {
 	Day1Part1(),
@@ -17,6 +19,8 @@ int programs[] = {
 	Day3Part2(),
 	Day4Part1(),
 	Day4Part2(),
+	Day5Part1(),
+	Day5Part2(),
 };
 
 int main()

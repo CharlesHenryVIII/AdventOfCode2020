@@ -108,6 +108,12 @@ inline bool operator!=(const Vectori& lhs, const Vectori& rhs)
 std::vector<int> TextToIntArray(const char* text, const char lineEnd);
 std::vector<int> TextToIntArray(const char* text);
 std::vector<int> FileToIntArray(const char* fileName, const char lineEnd);
+bool TextDetection(const std::string& string, const std::string& check);
+void TextRemoval(std::string& string, const std::string& removalRef);
+void TextRemoval(std::string& string, const std::string& remove, const std::string& removeFrom);
+void TextAddition(std::string& string, const std::string& additionalText, const std::string& after);
+std::vector<std::string> TextToStringArray(const char* text);
+std::vector<std::string> TextToStringArray(const char* text, const char* lineEnd);
 std::vector<std::string> FileToStringArray(const char* fileName);
 std::vector<std::string> FileToStringArray(const char* fileName, const char* lineEnd);
 int32 NumberLengthInString(const std::string& string, int32& i);

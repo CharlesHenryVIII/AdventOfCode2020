@@ -12,6 +12,8 @@ int Day5Part1();
 int Day5Part2();
 int Day6Part1();
 int Day6Part2();
+int Day7Part1();
+int Day7Part2();
 
 struct FunctionCheckData {
 	int program = 0;
@@ -30,6 +32,8 @@ FunctionCheckData programs[] = {
 	{ Day5Part2(), 717 }, 
 	{ Day6Part1(), 6662 }, 
 	{ Day6Part2(), 3382 }, 
+	{ Day7Part1(), 335}, 
+	{ Day7Part2(), 2431}, 
 };
 
 int main()

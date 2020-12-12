@@ -89,6 +89,88 @@ std::vector<int> TextToIntArray(const char* text)
 	return nums;
 }
 
+bool TextDetection(const std::string& string, const std::string& check)
+{
+	for (int32 i = 0; i + check.size() <= string.size(); i++)
+	{
+		if (string.substr(i, check.size()) == check)
+			return true;
+	}
+	return false;
+}
+
+void TextRemoval(std::string& string, const std::string& removalRef)
+{
+	std::string_view sv = string;
+	auto begin = string.begin();
+	auto end = string.begin();
+	int32 i = 0;
+	while (end != string.end())
+	{
+		if (sv.substr(i, removalRef.size()) == removalRef)
+		{
+			begin = end;
+			for (int32 j = 0; j < removalRef.size(); j++)
+				end++;
+			string.erase(begin, end);
+			end = string.begin();
+			i = 0;
+			//return;
+
+		}
+		else
+		{
+			end++;
+			i++;
+		}
+	}
+}
+
+//void TextRemoval(std::string& string, const std::string& remove, const std::string& removeFrom)
+//{
+//	std::string_view sv = string;
+//	auto begin = string.begin();
+//	auto end = string.begin();
+//	int32 i = 0;
+//	while (end != string.end())
+//	{
+//		if (sv.substr(i, removeFrom.size()) == removeFrom)
+//		{
+//
+//
+//			if ()
+//
+//			//int32 j = 0;
+//			//while (j < removeFrom.size())
+//			//{
+//
+//			//	begin = end;
+//			//	for (j = 0; !(sv.substr(i + j, remove.size()) == remove) && end != string.end(); j++)
+//			//		end++;
+//			//	string.erase(begin, end);
+//
+//			//}
+//		}
+//		else
+//		{
+//			end++;
+//			i++;
+//		}
+//	}
+//}
+
+void TextAddition(std::string& string, const std::string& additionalText, const std::string& after)
+{
+	std::string_view sv = string;
+	for (int32 i = 0; i < string.size() - after.size(); i++)
+	{
+		if (sv.substr(i, (after.size())) == after && !(sv.substr(i, (after.size() + additionalText.size())) == (after + additionalText)))
+		{
+			string.insert(i + after.size(), additionalText);
+		}
+	}
+}
+
 std::vector<std::string> TextToStringArray(const char* text)
 {
 	std::string_view sv = text;

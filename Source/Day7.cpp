@@ -83,10 +83,10 @@ int32 Day7Part1()
 }
 
 
-uint64 RecursiveDescentParser2(const std::string& string, std::vector<std::string>* rules)
+uint32 RecursiveDescentParser2(const std::string& string, std::vector<std::string>* rules)
 {
 	std::vector<std::string> bags = TextToStringArray(string.data(), " bags");
-	uint64 result = 0;
+	uint32 result = 0;
 	for (int32 i = 1; i < bags.size(); i++)
 	{
 
@@ -102,7 +102,7 @@ uint64 RecursiveDescentParser2(const std::string& string, std::vector<std::strin
 
 				if (rule.find(combined) == 0)
 				{
-					uint64 test = (uint64)atoi(words[0].c_str());
+					uint32 test = (uint32)atoi(words[0].c_str());
 					result +=  test * RecursiveDescentParser2(rule, rules);
 				}
 			}
@@ -133,7 +133,7 @@ int32 Day7Part2()
 			string.insert(string.size(), "s");
 	}
 	
-	uint64 result = 0;
+	uint32 result = 0;
 	for (const std::string& string : text)
 	{
 		if (string.find("shiny gold") == 0)

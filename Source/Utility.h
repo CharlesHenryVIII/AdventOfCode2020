@@ -105,9 +105,10 @@ inline bool operator!=(const Vectori& lhs, const Vectori& rhs)
     return !(lhs == rhs);
 }
 
-std::vector<int> TextToIntArray(const char* text, const char lineEnd);
-std::vector<int> TextToIntArray(const char* text);
-std::vector<int> FileToIntArray(const char* fileName, const char lineEnd);
+std::vector<int32> TextToIntArray(const char* text, const char lineEnd);
+std::vector<int32> TextToIntArray(const char* text);
+std::vector<int32> FileToIntArray(const char* fileName, const char lineEnd);
+std::vector<int32> FileToIntArray(const char* fileName);
 bool TextDetection(const std::string& string, const std::string& check);
 void TextRemoval(std::string& string, const std::string& removalRef);
 void TextRemoval(std::string& string, const std::string& remove, const std::string& removeFrom);

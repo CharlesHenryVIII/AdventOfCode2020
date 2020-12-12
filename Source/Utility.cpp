@@ -19,26 +19,26 @@ const char* ReadEntireFileAsString(const char* fileName)
 	return buffer;
 }
 
-std::vector<int> TextToIntArray(const char* text, const char lineEnd)
+std::vector<int32> TextToIntArray(const char* text, const char lineEnd)
 {
-	std::vector<int> workingNums;
-	std::vector<int> nums;
+	std::vector<int32> workingNums;
+	std::vector<int32> nums;
 	workingNums.reserve(10);
 	nums.reserve(16);
 
-	for (int i = 0; text[i] != 0; i++)
+	for (int32 i = 0; text[i] != 0; i++)
 	{
 
 		//assert((data.text[i] - '0' >= 0  && data.text[i] - '0' <= '9') || data.text[i] == lineEnd);
 		if (text[i] - '0' >= 0  && text[i] - '0' <= '9')
 		{
-			int value = text[i] - '0';
+			int32 value = text[i] - '0';
 			workingNums.push_back(value);
 		}
 		else if (text[i] == lineEnd)
 		{
-			int value = 0;
-			for (int j = 0; j < workingNums.size(); j++)
+			int32 value = 0;
+			for (int32 j = 0; j < workingNums.size(); j++)
 			{
 				value += (workingNums[j] * (int)pow(10, workingNums.size() - 1 - j));
 			}
@@ -54,36 +54,23 @@ std::vector<int> TextToIntArray(const char* text, const char lineEnd)
 	return nums;
 }
 
-std::vector<int> TextToIntArray(const char* text)
+std::vector<int32> TextToIntArray(const char* text)
 {
-	std::vector<int> workingNums;
 	std::vector<int> nums;
-	workingNums.reserve(10);
-	nums.reserve(2);
+	//std::string workingText = text;
+	std::string_view test = text;
+	int32 index = 0;
 
-	for (int i = 0; text[i] != 0; i++)
+	for (int32 i = 0; text[i] != 0; i++)
 	{
 
 		if (text[i] >= '0' && text[i] <= '9')
+			index++;
+		else if (index)
 		{
-
-			int value = text[i] - '0';
-			workingNums.push_back(value);
-		}
-		else
-		{
-			if (workingNums.size())
-			{
-				
-				int value = 0;
-				for (int j = 0; j < workingNums.size(); j++)
-				{
-					value += (workingNums[j] * (int)pow(10, workingNums.size() - 1 - j));
-				}
-
-				nums.push_back(value);
-				workingNums.clear();
-			}
+			//nums.push_back(atoi(workingText.substr(i - index, index).c_str()));
+			nums.push_back(atoi(test.substr(i - index, index).data()));
+			index = 0;
 		}
 	}
 	return nums;
@@ -126,39 +113,6 @@ void TextRemoval(std::string& string, const std::string& removalRef)
 	}
 }
 
-//void TextRemoval(std::string& string, const std::string& remove, const std::string& removeFrom)
-//{
-//	std::string_view sv = string;
-//	auto begin = string.begin();
-//	auto end = string.begin();
-//	int32 i = 0;
-//	while (end != string.end())
-//	{
-//		if (sv.substr(i, removeFrom.size()) == removeFrom)
-//		{
-//
-//
-//			if ()
-//
-//			//int32 j = 0;
-//			//while (j < removeFrom.size())
-//			//{
-//
-//			//	begin = end;
-//			//	for (j = 0; !(sv.substr(i + j, remove.size()) == remove) && end != string.end(); j++)
-//			//		end++;
-//			//	string.erase(begin, end);
-//
-//			//}
-//		}
-//		else
-//		{
-//			end++;
-//			i++;
-//		}
-//	}
-//}
-
 void TextAddition(std::string& string, const std::string& additionalText, const std::string& after)
 {
 	std::string_view sv = string;
@@ -176,8 +130,8 @@ std::vector<std::string> TextToStringArray(const char* text)
 	std::string_view sv = text;
 	std::vector<std::string> result;
 
-	int tokenLength = 0;
-	for (int i = 0; text[i - 1] != 0; i++)
+	int32 tokenLength = 0;
+	for (int32 i = 0; text[i - 1] != 0; i++)
 	{
 		if (text[i] >= ' ' && text[i] <= '~')
 		{
@@ -207,8 +161,8 @@ std::vector<std::string> TextToStringArray(const char* text, const char* lineEnd
 	std::string_view sv = text;
 	std::vector<std::string> result;
 
-	int tokenLength = 0;
-	for (int i = 0; text[i] != 0; i++)
+	int32 tokenLength = 0;
+	for (int32 i = 0; text[i] != 0; i++)
 	{
 		bool isLineEnd = false;
 		if (text[i] == lineEnd[0] || text[i + 1] == 0)
@@ -253,9 +207,14 @@ std::vector<std::string> FileToStringArray(const char* fileName, const char* lin
 	return TextToStringArray(ReadEntireFileAsString(fileName), lineEnd);
 }
 
-std::vector<int> FileToIntArray(const char* fileName, const char lineEnd)
+std::vector<int32> FileToIntArray(const char* fileName, const char lineEnd)
 {
 	return TextToIntArray(ReadEntireFileAsString(fileName), lineEnd);
+}
+
+std::vector<int32> FileToIntArray(const char* fileName)
+{
+	return TextToIntArray(ReadEntireFileAsString(fileName));
 }
 
 int32 NumberLengthInString(const std::string& string, int32& i)
